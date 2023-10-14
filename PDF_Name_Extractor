@@ -1,0 +1,31 @@
+import os
+import csv
+import pdfplumber
+
+# specify the directory you want to start from
+rootDir = 'C:\\recipes'
+
+# open the CSV file for writing
+with open('pdf_names.csv', 'w', newline='') as csvfile:
+    fieldnames = ['current_name', 'recommended_name']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+    writer.writeheader()
+
+    for dirName, subdirList, fileList in os.walk(rootDir):
+        for fname in fileList:
+            if fname.endswith('.pdf'):
+                file_path = os.path.join(dirName, fname)
+                try:
+                    with pdfplumber.open(file_path) as pdf:
+                        first_page = pdf.pages[0]
+                        text = first_page.extract_text()
+                        # get the first 5 lines of the PDF
+                        lines = text.split('\n')[:5]
+                        # find the line that is all capitalized
+                        recommended_name = next((line for line in lines if line.isupper()), None)
+                        if recommended_name:
+                            # write the current and recommended names to the CSV file
+                            writer.writerow({'current_name': fname, 'recommended_name': recommended_name})
+                except Exception as e:
+                    print(f"An error occurred while processing file {file_path}: {str(e)}")
