@@ -1,0 +1,31 @@
+import os
+import csv
+
+# specify the directory you want to start from
+rootDir = 'C:\\recipes'
+
+# open the CSV file for reading
+with open('pdf_names.csv', 'r') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        current_name = row['current_name']
+        recommended_name = row['recommended_name']
+        if not recommended_name.endswith('.pdf'):
+            recommended_name += '.pdf'
+        current_path = os.path.join(rootDir, current_name)
+        recommended_path = os.path.join(rootDir, recommended_name)
+        # check if the current file exists and if the recommended name is not empty
+        if os.path.exists(current_path) and recommended_name:
+            try:
+                # check if a file with the recommended name already exists
+                if os.path.exists(recommended_path):
+                    base_name, ext = os.path.splitext(recommended_name)
+                    i = 1
+                    # increment the file name until we find one that doesn't exist
+                    while os.path.exists(os.path.join(rootDir, f"{base_name}({i}){ext}")):
+                        i += 1
+                    recommended_path = os.path.join(rootDir, f"{base_name}({i}){ext}")
+                # rename the file
+                os.rename(current_path, recommended_path)
+            except Exception as e:
+                print(f"An error occurred while renaming file {current_path} to {recommended_path}: {str(e)}")
