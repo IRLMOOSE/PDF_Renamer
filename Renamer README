@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Renamer Script README</title>
+</head>
+<body>
+    <h1>PDF Renamer Script</h1>
+    <p>This script reads a CSV file containing current and recommended names for PDF files in a specified directory. It then renames each PDF file from its current name to the recommended name.</p>
+
+    <h2>Requirements</h2>
+    <ul>
+        <li>Python 3</li>
+    </ul>
+
+    <h2>Usage</h2>
+    <ol>
+        <li>Modify the <code>rootDir</code> variable in the script to point to your directory containing the PDF files.</li>
+        <li>Ensure that the CSV file 'pdf_names.csv' is in the same directory as the script. This file should have two columns: 'current_name' and 'recommended_name'.</li>
+        <li>Run the script: <code>python pdf_renamer.py</code></li>
+    </ol>
+
+    <h2>Output</h2>
+    <p>The script will rename each PDF file in the specified directory from its current name to the recommended name. If a file with the recommended name already exists, it will append a number to the end of the file name.</p>
+
+    <h2>Error Handling</h2>
+    <p>If an error occurs while renaming a file (e.g., if a file cannot be opened), the script will print an error message and continue with the next file.</p>
+
+    <h2>Note</h2>
+    <p>Please make sure to back up your files before running this script as it will rename your files.</p>
+</body>
+</html>
